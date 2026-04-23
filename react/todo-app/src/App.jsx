@@ -30,10 +30,10 @@ function App() {
     alert("Todo not found");
   }
 
-  useEffect(() => {
+  /* useEffect(() => {
     console.log("use effect");
     console.log(todos);
-  }, [todos]);
+  }, [todos]); */
 
   return (
     <>
@@ -44,6 +44,7 @@ function App() {
           placeholder="Enter a new todo"
           required
           value={inputText}
+          onKeyDown={(f) => f.key === "Enter" && addTodo(inputText)}
           onChange={(e) => setInputText(e.target.value)}
         />
         <button type="button" onClick={() => addTodo(inputText)}>
