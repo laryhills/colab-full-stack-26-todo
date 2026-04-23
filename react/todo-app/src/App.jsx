@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
+import { useLocalStorage } from "./hooks";
 
 function App() {
-  const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState("");
+
+  // custom hook
+  const [savedTodos, setSavedTodos] = useLocalStorage("todos", []);
 
   function addTodo(name) {
     const todo = {
@@ -11,7 +14,7 @@ function App() {
       name,
       completed: false,
     };
-    setTodos((prevTodos) => [...prevTodos, todo]);
+    setSavedTodos((prevTodos) => [...prevTodos, todo]);
     /* const updatedTodos = [...todos, todo];
     setTodos(updatedTodos); */
     setInputText("");
@@ -19,10 +22,10 @@ function App() {
   }
 
   function completeTodo(id) {
-    const todo = todos.find((t) => t.id === id);
+    const todo = savedTodos.find((t) => t.id === id);
     if (todo) {
       const updatedTodo = { ...todo, completed: true };
-      setTodos((prevTodos) =>
+      setSavedTodos((prevTodos) =>
         prevTodos.map((t) => (t.id === id ? updatedTodo : t)),
       );
       return;
@@ -54,7 +57,7 @@ function App() {
 
       <div className="container">
         <ul>
-          {[...todos]
+          {[...savedTodos]
             .sort((a, b) => a.completed - b.completed || a.id - b.id)
             .map((todo) => (
               <li
@@ -67,7 +70,7 @@ function App() {
             ))}
         </ul>
 
-        <pre>{JSON.stringify(todos, null, 2)}</pre>
+        <pre>{JSON.stringify(savedTodos, null, 2)}</pre>
       </div>
     </>
   );
