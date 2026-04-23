@@ -53,15 +53,17 @@ function App() {
 
       <div className="container">
         <ul>
-          {todos.map((todo) => (
-            <li
-              key={todo.id}
-              className={todo.completed ? "completed" : ""}
-              onClick={() => completeTodo(todo.id)}
-            >
-              {todo.name}
-            </li>
-          ))}
+          {[...todos]
+            .sort((a, b) => a.completed - b.completed || a.id - b.id)
+            .map((todo) => (
+              <li
+                key={todo.id}
+                className={todo.completed ? "completed" : ""}
+                onClick={() => completeTodo(todo.id)}
+              >
+                {todo.name}
+              </li>
+            ))}
         </ul>
 
         <pre>{JSON.stringify(todos, null, 2)}</pre>
